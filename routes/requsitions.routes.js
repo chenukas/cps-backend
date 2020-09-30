@@ -5,4 +5,4 @@ const requsitionController = require("../controllers/requsitions.controllers");
 router.get("/requsitions", requsitionController.viewRequsitions);
 router.put("/requsitions/:id", requsitionController.updateRequsition);
 
-module.exports = routes;
+module.exports = router;
