@@ -3,7 +3,7 @@
     "PORT": 3000,
     "MONGODB_URI": "mongodb+srv://root:rootpassword@cps-development.zii3j.mongodb.net/cps?retryWrites=true&w=majority",
     "JWT_SECRET": "cps_2020_jun_wd_01",
-    "JWT_EXP": "2m"
+    "JWT_EXP": "10m"
   },
   "production": {
     "PORT": 80,
