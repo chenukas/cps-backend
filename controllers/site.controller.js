@@ -52,7 +52,7 @@ const viewSiteById = (req, res) => {
     });
 };
 
-const updateDetails = (req, res) => {
+const updateSiteDetails = (req, res) => {
     if(!req.body.siteName){
         return res.status(400).json({
             success: false,
@@ -97,6 +97,6 @@ module.exports = {
     addSite,
     viewSites,
     viewSiteById,
-    updateDetails,
+    updateSiteDetails,
     deleteSiteById,
 }
