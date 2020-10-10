@@ -1,7 +1,14 @@
 const Site = require('../models/site.model');
-//const { result } = require('lodash');
 
 const addSite = (req, res) => {
+
+    if(!req.body.siteNo) {
+        return res.status(400).json({
+            success: false,
+            message: "Site Number is undefined"
+        });
+    }
+
     if(!req.body.siteName){
         return res.status(400).json({
             success: false,
@@ -53,6 +60,14 @@ const viewSiteById = (req, res) => {
 };
 
 const updateSiteDetails = (req, res) => {
+
+    if(!req.body.siteNo) {
+        return res.status(400).json({
+            success: false,
+            message: "Site Number is undefined"
+        });
+    }
+
     if(!req.body.siteName){
         return res.status(400).json({
             success: false,
@@ -63,9 +78,8 @@ const updateSiteDetails = (req, res) => {
     Site.findByIdAndUpdate(req.params.id, {
         siteNo: req.body.siteNo,
         siteName: req.body.siteName,
-        address: req.body.address,
-        city: req.body.city,
-        phoneNo: req.body.phoneNo
+        location: req.body.location,
+        budget: req.body.budget
     }, {new: true}).then(result => {
         res.status(200).json({
             success: true,
@@ -80,7 +94,7 @@ const updateSiteDetails = (req, res) => {
 };
 
 const deleteSiteById = (req, res) => {
-    Notice.findByIdAndDelete(req.params.id).then(result => {
+    Site.findByIdAndDelete(req.params.id).then(result => {
         res.status(200).json({
             success: true,
             data: result

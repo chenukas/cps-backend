@@ -1,16 +1,14 @@
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
 
-const siteSchema = new Schema(
+const siteSchema = new mongoose.Schema(
   {
     siteNo: { type: String, required: true, unique: true },
     siteName: { type: String, required: true },
-    address: { type: String, required: true },
-    city: { type: String, required: true },
-    phoneNo: { type: String, required: true },
+    location: { type: String, required: true },
+    budget: { type: Number, required: true },
   },
 
   { timestamps: true }
 );
 
-module.exports = mongoose.model("site", siteSchema);
+module.exports = mongoose.model('site', siteSchema);
