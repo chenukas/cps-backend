@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { Schema } = mongoose;
 
 var userSchema = new mongoose.Schema(
   {
@@ -11,6 +12,18 @@ var userSchema = new mongoose.Schema(
     userType: {
       type: String,
       default: "0",
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    telephone: {
+      type: String,
+      required: true,
+    },
+    site: {
+      type: Schema.Types.ObjectId,
+      ref: "site",
     },
     email: {
       type: String,
