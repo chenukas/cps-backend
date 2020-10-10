@@ -3,10 +3,15 @@ const passport = require("passport");
 const _ = require("lodash");
 
 const User = mongoose.model("User");
+const Site = require("../models/site.model");
 
 module.exports.register = (req, res, next) => {
   var user = new User();
+
+  user.site = mongoose.Types.ObjectId(req.body.site);
   user.fullName = req.body.fullName;
+  user.address = req.body.address;
+  user.telephone = req.body.telephone;
   user.userType = req.body.userType;
   user.email = req.body.email;
   user.password = req.body.password;
@@ -41,13 +46,21 @@ module.exports.userProfile = (req, res, next) => {
     else
       return res.status(200).json({
         status: true,
-        user: _.pick(user, ["fullName", "email", "userType"]),
+        user: _.pick(user, [
+          "fullName",
+          "email",
+          "userType",
+          "address",
+          "telephone",
+          "site",
+        ]),
       });
-  });
+  }).populate("site");
 };
 
 module.exports.getAllUsers = (req, res, next) => {
   User.find({})
+    .populate("site")
     .then((result) => {
       res.status(200).json({
         success: true,
