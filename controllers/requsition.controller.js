@@ -60,8 +60,41 @@ const viewRequisitionById = (req, res) => {
     });
 }
 
+const getNextRequisitionID = (req, res) => {
+
+    const start = new Date();
+    start.setMonth(0, 1);
+    start.setHours(0, 0, 0, 0);
+  
+    const end = new Date();
+    end.setMonth(11, 31);
+    end.setHours(23, 59, 59, 999);
+  
+    Requisition.find({ createdAt: { $gt: start, $lt: end } }, "requisitionID")
+      .sort("-createdAt")
+      .then((result) => {
+        let nextNum =
+          result.length === 0
+            ? 1
+            : parseInt(result.shift().requisitionID.slice(-4)) + 1;
+  
+        const formattedCount = "000".concat(nextNum).slice(-4);
+        return res.status(200).json({
+          success: true,
+          data: `R${start.getFullYear().toString().slice(-2)}${formattedCount}`,
+        });
+      })
+      .catch((err) =>
+        res.status(500).json({
+          success: false,
+          message: err.message,
+        })
+      );
+  };
+
 module.exports = {
     addRequisition,
     viewRequisition,
-    viewRequisitionById
+    viewRequisitionById,
+    getNextRequisitionID
 }
