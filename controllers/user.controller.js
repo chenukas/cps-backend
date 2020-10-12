@@ -3,10 +3,15 @@ const passport = require("passport");
 const _ = require("lodash");
 
 const User = mongoose.model("User");
+const Site = require("../models/site.model");
 
 module.exports.register = (req, res, next) => {
   var user = new User();
+
+  user.site = mongoose.Types.ObjectId(req.body.site);
   user.fullName = req.body.fullName;
+  user.address = req.body.address;
+  user.telephone = req.body.telephone;
   user.userType = req.body.userType;
   user.email = req.body.email;
   user.password = req.body.password;
@@ -40,13 +45,51 @@ module.exports.userProfile = (req, res, next) => {
         .status(404)
         .json({ status: false, message: "User not found." });
     else
-      return res
-        .status(200)
-        .json({
-          status: true,
-          user: _.pick(user, ["fullName", "email", "userType"]),
-        });
-  });
+      return res.status(200).json({
+        status: true,
+        user: _.pick(user, [
+          "fullName",
+          "email",
+          "userType",
+          "address",
+          "telephone",
+          "site",
+        ]),
+      });
+  }).populate("site");
+};
+
+module.exports.getAllUsers = (req, res, next) => {
+  User.find({})
+    .populate("site")
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    });
+};
+
+module.exports.deleteUserById = (req, res, next) => {
+  User.findByIdAndDelete(req.params.id)
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    });
 };
 
 module.exports.userProfileByEmail = (req, res) => {
