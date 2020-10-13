@@ -1,4 +1,6 @@
 const Site = require('../models/site.model');
+const mongoose = require("mongoose");
+//const user = require('../models/user.model');
 
 const addSite = (req, res) => {
 
@@ -18,6 +20,8 @@ const addSite = (req, res) => {
 
     const site = new Site(req.body);
 
+    site.siteManagerName = mongoose.Types.ObjectId(req.body.siteManagerName);
+
     site.save().then(result => {
         res.status(200).json({
             success: true,
@@ -32,7 +36,7 @@ const addSite = (req, res) => {
 };
 
 const viewSites = (req, res) => {
-    Site.find({}).then(result => {
+    Site.find({}).populate('siteManagerName').then(result => {
         res.status(200).json({
             success: true,
             data: result
@@ -78,6 +82,7 @@ const updateSiteDetails = (req, res) => {
     Site.findByIdAndUpdate(req.params.id, {
         siteNo: req.body.siteNo,
         siteName: req.body.siteName,
+        siteManagerName: req.body.siteManagerName,
         location: req.body.location,
         budget: req.body.budget
     }, {new: true}).then(result => {
