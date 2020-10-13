@@ -3,12 +3,38 @@ const { Schema } = mongoose;
 
 const requisitionSchema = new Schema(
   {
-    requisitionNo: { type: String, required: true, unique: true },
-    siteId: { type: Schema.Types.ObjectId, ref: "sites" },
-    siteManagerId: { type: Schema.Types.ObjectId, ref: "users" },
-    approvedDate: { type: Date },
-    totalAmount: { type: Number, required: true },
-    status: { type: String },
+    requisitionID: {
+      type: String,
+      required: true
+    },
+    siteId: { 
+      type: String,
+      required: true
+    },
+    siteManagerName: { 
+      type: String,
+      required: true
+    },
+    requiredItems: { 
+      type: String,
+      required: true
+    },
+    ItemsQty: {
+      type: String,
+      required: true
+    },
+    totalAmount: {
+      type: Number,
+      required: true
+    },
+    approvedDate: {
+      type: String,
+      required: true
+    },
+    status: { 
+      type: String,
+      required: true
+    }
   },
   { timestamps: true }
 );
