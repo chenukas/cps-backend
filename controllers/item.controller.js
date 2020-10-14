@@ -93,7 +93,6 @@ const updateItemById = (req, res) => {
       quantity: req.body.quantity,
       unitPrice: req.body.unitPrice,
       description: req.body.description,
-      supplier: req.body.supplier,
     },
     { new: true }
   )
