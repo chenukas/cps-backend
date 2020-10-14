@@ -3,5 +3,6 @@ const placerequsitionController = require("../controllers/place_requisition.cont
 
 router.post('/orders', placerequsitionController.addOrder);
 router.get('/orders', placerequsitionController.viewOrder);
+router.get('/getOrderNumber', placerequsitionController.getNextOrderID);
 
 module.exports = router;
