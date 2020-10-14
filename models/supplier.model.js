@@ -1,16 +1,17 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const supplierSchema = new mongoose.Schema(
-    {
-        supId : { type: String, required: true, unique: true },
-        supName : { type: String, required: true },
-        supLocation : { type: String, required: true },
-        supEmail : { type: String, required: true },
-        supTel : { type: Number, required: true },
-    },
+const supplierSchema = new Schema(
+  {
+    supId: { type: String, required: true, unique: true },
+    supName: { type: String, required: true },
+    supLocation: { type: String, required: true },
+    supEmail: { type: String, required: true },
+    supTel: { type: String, required: true },
+    items: [{ type: Schema.Types.ObjectId, ref: "item" }],
+  },
 
-    { timestamps: true }
-
+  { timestamps: true }
 );
 
-module.exports = mongoose.model( 'supplier', supplierSchema );
+module.exports = mongoose.model("supplier", supplierSchema);
