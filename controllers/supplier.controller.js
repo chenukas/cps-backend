@@ -1,4 +1,5 @@
 const Supplier = require("../models/supplier.model");
+const mongoose = require("mongoose");
 
 const addSupplier = (req, res) => {
   if (!req.body.supId) {
@@ -35,6 +36,7 @@ const addSupplier = (req, res) => {
 
 const viewAllSuppliers = (req, res) => {
   Supplier.find({})
+    .populate("items")
     .then((result) => {
       res.status(200).json({
         success: true,
