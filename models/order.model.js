@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const place_requisitionSchema = new Schema(
+const orderSchema = new Schema(
   {
     orderID: {
       type: String,
@@ -18,4 +18,4 @@ const place_requisitionSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Place_Requisition", place_requisitionSchema);
+module.exports = mongoose.model("Order", orderSchema);
