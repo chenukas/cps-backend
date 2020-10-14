@@ -1,4 +1,4 @@
-const requsitionsRouter = require("./requsition.routes");
+const requsitionsRouter = require("./requisition.routes");
 const userRouter = require("./user.routes");
 const sitesRouter = require('./site.routes');
 const suppliersRouter = require('./supplier.routes');
