@@ -1,4 +1,4 @@
-const PlaceRequisition = require('../models/place_requisition.model');
+const Order = require('../models/order.model');
 const mongoose = require("mongoose");
 
 const addOrder = (req, res) => {
@@ -17,11 +17,11 @@ const addOrder = (req, res) => {
         });
     }
 
-    const placeRequisition = new PlaceRequisition(req.body);
+    const order = new Order(req.body);
 
-    placeRequisition.requisitionID = mongoose.Types.ObjectId(req.body.requisitionID);
+    order.requisitionID = mongoose.Types.ObjectId(req.body.requisitionID);
 
-    placeRequisition.save().then(result => {
+    order.save().then(result => {
         res.status(200).json({
             success: true,
             data: result
@@ -35,7 +35,7 @@ const addOrder = (req, res) => {
 };
 
 const viewOrder = (req, res) => {
-    PlaceRequisition.find({})
+    Order.find({})
         .populate("requisitionID")
         .then(result => {
             res.status(200).json({
@@ -60,7 +60,7 @@ const getNextOrderID = (req, res) => {
     end.setMonth(11, 31);
     end.setHours(23, 59, 59, 999);
   
-    PlaceRequisition.find({ createdAt: { $gt: start, $lt: end } }, "orderID")
+    Order.find({ createdAt: { $gt: start, $lt: end } }, "orderID")
       .sort("-createdAt")
       .then((result) => {
         let nextNum =
