@@ -71,6 +71,60 @@ const viewRequisitionById = (req, res) => {
     });
 }
 
+const updaterequisitionById = (req, res) => {
+
+    if(!req.body.requisitionID) {
+        return res.status(400).json({
+            success: false,
+            message: "Requisition ID is undefined"
+        });
+    }
+
+    if(!req.body.siteId){
+        return res.status(400).json({
+            success: false,
+            message: "Site ID is undefined"
+        });
+    }
+
+    Requisition.findByIdAndUpdate(req.params.id, {
+        requisitionID: req.body.requisitionID,
+        siteId: req.body.siteId,
+        siteManagerName: req.body.siteManagerName,
+        requiredItems: req.body.requiredItems,
+        ItemsQty: req.body.ItemsQty,
+        totalAmount: req.body.totalAmount,
+        approvedDate: req.body.approvedDate,
+    }, {new: true}).then(result => {
+        res.status(200).json({
+            success: true,
+            data: result
+        });
+    }).catch(err => {
+        res.status(503).json({
+            success: false,
+            message: err.message
+        });
+    });
+
+};
+
+const updateStatusById = (req, res) => {
+    Requisition.findByIdAndUpdate(req.params.id, {
+        status: req.body.status,
+    }, {new: true}).then(result => {
+        res.status(200).json({
+            success: true,
+            data: result
+        });
+    }).catch(err => {
+        res.status(503).json({
+            success: false,
+            message: err.message
+        });
+    });
+};
+
 const getNextRequisitionID = (req, res) => {
 
     const start = new Date();
@@ -107,5 +161,7 @@ module.exports = {
     addRequisition,
     viewRequisition,
     viewRequisitionById,
+    updaterequisitionById, 
+    updateStatusById,
     getNextRequisitionID
 }
