@@ -7,31 +7,35 @@ const requisitionSchema = new Schema(
       type: String,
       required: true
     },
-    siteId: { 
+    siteManagerId: {
+      type: Schema.Types.ObjectId, ref: "User"
+    },
+    requestDate: {
       type: String,
       required: true
     },
-    siteManagerName: { 
+    requireDate: {
       type: String,
       required: true
     },
-    requiredItems: { 
+    siteId: {
+      type: Schema.Types.ObjectId, ref: "site"
+    },
+    supplierName: {
       type: String,
       required: true
     },
-    ItemsQty: {
-      type: String,
-      required: true
-    },
+    items: [
+      {
+        productId: { type: String },
+        quantity: { type: Number }
+      }
+    ],
     totalAmount: {
       type: Number,
       required: true
     },
-    approvedDate: {
-      type: String,
-      required: true
-    },
-    status: { 
+    status: {
       type: String,
       required: true
     }

@@ -93,9 +93,7 @@ module.exports.deleteUserById = (req, res, next) => {
 };
 
 module.exports.userProfileByEmail = (req, res) => {
-
-  console.log("Hi");
-
+  
   if(!req.body.email) {
     return res.status(400).json({
       success: false,
@@ -125,7 +123,9 @@ module.exports.userProfileByEmail = (req, res) => {
 
     const user = users[0];
 
-    User.findById(user._id).then(result => {
+    User.findById(user._id)
+    .populate("site")
+    .then(result => {
       res.status(200).json({
           success: true,
           data: result,
