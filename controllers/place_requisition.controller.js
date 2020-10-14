@@ -66,7 +66,7 @@ const getNextOrderID = (req, res) => {
         let nextNum =
           result.length === 0
             ? 1
-            : parseInt(result.shift().requisitionID.slice(-4)) + 1;
+            : parseInt(result.shift().orderID.slice(-4)) + 1;
   
         const formattedCount = "000".concat(nextNum).slice(-4);
         return res.status(200).json({
