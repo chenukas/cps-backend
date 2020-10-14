@@ -1,4 +1,5 @@
 const Requisition = require('../models/requisition.model');
+const mongoose = require("mongoose");
 
 const addRequisition = (req, res) => {
 
@@ -16,8 +17,15 @@ const addRequisition = (req, res) => {
         });
     }
 
-
     const requisition = new Requisition(req.body);
+
+    requisition.siteId = mongoose.Types.ObjectId(req.body.siteId);
+    requisition.siteManagerId = mongoose.Types.ObjectId(req.body.siteManagerId);
+
+    requisition.items.push({
+        productId: req.body.items.productId,
+        quantity: req.body.items.quantity
+    });
 
     requisition.save().then(result => {
         res.status(200).json({
@@ -33,17 +41,20 @@ const addRequisition = (req, res) => {
 };
 
 const viewRequisition = (req, res) => {
-    Requisition.find({}).then(result => {
-        res.status(200).json({
-            success: true,
-            data: result
+    Requisition.find({})
+        .populate("siteId")
+        .populate("siteManagerId")
+        .then(result => {
+            res.status(200).json({
+                success: true,
+                data: result
+            });
+        }).catch(err => {
+            res.status(501).json({
+                success: false,
+                message: err.message
+            });
         });
-    }).catch(err => {
-        res.status(501).json({
-            success: false,
-            message: err.message
-        });
-    });
 };
 
 const viewRequisitionById = (req, res) => {
