@@ -5,7 +5,7 @@ const siteSchema = new mongoose.Schema(
   {
     siteNo: { type: String, required: true, unique: true },
     siteName: { type: String, required: true },
-    siteManagerName: {type: Schema.Types.ObjectId, ref: "users"},
+    siteManagerName: { type: Schema.Types.ObjectId, ref: "User" },
     location: { type: String, required: true },
     budget: { type: Number, required: true },
   },
@@ -13,4 +13,4 @@ const siteSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('site', siteSchema);
+module.exports = mongoose.model("site", siteSchema);
