@@ -118,6 +118,30 @@ const deleteItemById = (req, res) => {
         data: result,
       });
     })
+    .then((s) => {
+      Supplier.findOneAndUpdate(
+        {
+          items: mongoose.Types.ObjectId(req.params.id),
+        },
+        {
+          $pullAll: {
+            items: [mongoose.Types.ObjectId(req.params.id)],
+          },
+        }
+      )
+        .then((result) => {
+          res.status(200).json({
+            success: true,
+            data: result,
+          });
+        })
+        .catch((err) => {
+          res.status(500).json({
+            success: false,
+            message: err.message,
+          });
+        });
+    })
     .catch((err) => {
       res.status(504).json({
         success: false,
