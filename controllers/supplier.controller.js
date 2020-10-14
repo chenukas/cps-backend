@@ -1,28 +1,24 @@
-const Site = require('../models/site.model');
-const mongoose = require("mongoose");
-//const user = require('../models/user.model');
+const Supplier = require('../models/supplier.model');
 
-const addSite = (req, res) => {
+const addSupplier = (req, res) => {
 
-    if(!req.body.siteNo) {
+    if(!req.body.supId) {
         return res.status(400).json({
             success: false,
-            message: "Site Number is undefined"
+            message: "Supplier ID is undefined"
         });
     }
 
-    if(!req.body.siteName){
+    if(!req.body.supName){
         return res.status(400).json({
             success: false,
-            message: "Site name is undefined"
+            message: "Supplier name is undefined"
         });
     }
 
-    const site = new Site(req.body);
+    const supplier = new Supplier(req.body);
 
-    site.siteManagerName = mongoose.Types.ObjectId(req.body.siteManagerName);
-
-    site.save().then(result => {
+    supplier.save().then(result => {
         res.status(200).json({
             success: true,
             data: result
@@ -33,10 +29,11 @@ const addSite = (req, res) => {
             message: err.message
         });
     });
+
 };
 
-const viewSites = (req, res) => {
-    Site.find({}).populate('siteManagerName').then(result => {
+const viewAllSuppliers = (req, res) => {
+    Supplier.find({}).then(result => {
         res.status(200).json({
             success: true,
             data: result
@@ -49,8 +46,8 @@ const viewSites = (req, res) => {
     });
 };
 
-const viewSiteById = (req, res) => {
-    Site.findById(req.params.id).then(result => {
+const viewSupplierById = (req, res) => {
+    Supplier.findById(req.params.id).then(result => {
         res.status(200).json({
             success: true,
             data: result
@@ -63,28 +60,28 @@ const viewSiteById = (req, res) => {
     });
 };
 
-const updateSiteDetails = (req, res) => {
+const updateSupplierDetails = (req, res) => {
 
-    if(!req.body.siteNo) {
+    if(!req.body.supId) {
         return res.status(400).json({
             success: false,
-            message: "Site Number is undefined"
+            message: "Supplier ID is undefined"
         });
     }
 
-    if(!req.body.siteName){
+    if(!req.body.supName){
         return res.status(400).json({
             success: false,
-            message: "Site name is undefined"
+            message: "Supplier name is undefined"
         });
     }
 
     Site.findByIdAndUpdate(req.params.id, {
-        siteNo: req.body.siteNo,
-        siteName: req.body.siteName,
-        siteManagerName: req.body.siteManagerName,
-        location: req.body.location,
-        budget: req.body.budget
+        supId: req.body.supId,
+        supName: req.body.supName,
+        supLocation: req.body.supLocation,
+        supEmail: req.body.supEmail,
+        supTel: req.body.supTel,
     }, {new: true}).then(result => {
         res.status(200).json({
             success: true,
@@ -98,8 +95,8 @@ const updateSiteDetails = (req, res) => {
     });
 };
 
-const deleteSiteById = (req, res) => {
-    Site.findByIdAndDelete(req.params.id).then(result => {
+const deleteSuppliers = (req, res) => {
+    Supplier.findByIdAndDelete(req.params.id).then(result => {
         res.status(200).json({
             success: true,
             data: result
@@ -113,9 +110,9 @@ const deleteSiteById = (req, res) => {
 };
 
 module.exports = {
-    addSite,
-    viewSites,
-    viewSiteById,
-    updateSiteDetails,
-    deleteSiteById,
+    addSupplier,
+    viewAllSuppliers,
+    viewSupplierById,
+    updateSupplierDetails,
+    deleteSuppliers
 }
