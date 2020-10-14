@@ -90,11 +90,12 @@ const updaterequisitionById = (req, res) => {
     Requisition.findByIdAndUpdate(req.params.id, {
         requisitionID: req.body.requisitionID,
         siteId: req.body.siteId,
-        siteManagerName: req.body.siteManagerName,
-        requiredItems: req.body.requiredItems,
-        ItemsQty: req.body.ItemsQty,
+        siteManagerId: req.body.siteManagerId,
+        items: req.body.items,
         totalAmount: req.body.totalAmount,
-        approvedDate: req.body.approvedDate,
+        requestDate: req.body.requestDate,
+        requireDate: req.body.requireDate,
+        supplierName: req.body.supplierName,
     }, {new: true}).then(result => {
         res.status(200).json({
             success: true,
