@@ -124,7 +124,6 @@ const deleteSuppliers = (req, res) => {
     });
 };
 
-
 const supplierByName = (req, res) => {
   if (!req.body.supName) {
     return res.status(400).json({
@@ -134,13 +133,14 @@ const supplierByName = (req, res) => {
   }
 
   let supName = req.body.supName;
-  console.log(supName)
+  console.log(supName);
 
-  Supplier.find({
+  Supplier.find(
+    {
       supName: supName,
     },
     (err, suppliers) => {
-      console.log("hhhhh")
+      console.log("hhhhh");
       if (err) {
         console.log("err 2:", err);
         return res.send({
@@ -154,25 +154,27 @@ const supplierByName = (req, res) => {
           message: "Invalid Supplier",
         });
       }
-      console.log("ddd")
+      console.log("ddd");
 
       const supplier = suppliers[0];
 
       Supplier.findById(supplier._id)
-      .populate("items")
-      .then((result) => {
-        res.status(200).json({
-          success: true,
-          data: result,
+        .populate("items")
+        .then((result) => {
+          res.status(200).json({
+            success: true,
+            data: result,
+          });
+        })
+        .catch((err) => {
+          res.status(502).json({
+            success: false,
+            message: err.message,
+          });
         });
-      })
-      .catch((err) => {
-        res.status(502).json({
-          success: false,
-          message: err.message,
-        });
-      });
-    };
+    }
+  );
+};
 
 const getNextSupID = (req, res) => {
   const start = new Date();
@@ -200,7 +202,7 @@ const getNextSupID = (req, res) => {
         success: false,
         message: err.message,
       })
-    });
+    );
 };
 
 module.exports = {
