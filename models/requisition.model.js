@@ -5,40 +5,43 @@ const requisitionSchema = new Schema(
   {
     requisitionID: {
       type: String,
-      required: true
+      required: true,
     },
     siteManagerId: {
-      type: Schema.Types.ObjectId, ref: "User"
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
     requestDate: {
       type: String,
-      required: true
+      required: true,
     },
     requireDate: {
       type: String,
-      required: true
+      required: true,
     },
     siteId: {
-      type: Schema.Types.ObjectId, ref: "site"
+      type: Schema.Types.ObjectId,
+      ref: "site",
     },
     supplierName: {
       type: String,
-      required: true
+      required: true,
     },
     items: [
       {
         productId: { type: Schema.Types.ObjectId, ref: "item" },
-        quantity: { type: Number }
-      }
+        quantity: { type: Number },
+      },
     ],
     totalAmount: {
       type: Number,
-      required: true
+      required: true,
     },
     status: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
+    comments: { type: String },
   },
   { timestamps: true }
 );
