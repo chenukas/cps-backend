@@ -6,6 +6,7 @@ router.get("/suppliers", supplierController.viewAllSuppliers);
 router.get("/suppliers/:id", supplierController.viewSupplierById);
 router.put("/suppliers/:id", supplierController.updateSupplierDetails);
 router.delete("/suppliers/:id", supplierController.deleteSuppliers);
+router.post("/supplierItem", supplierController.supplierByName);
 router.get("/getSupNumber", supplierController.getNextSupID);
 
 module.exports = router;
