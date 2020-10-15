@@ -124,10 +124,62 @@ const deleteSuppliers = (req, res) => {
     });
 };
 
+const supplierByName = (req, res) => {
+  if (!req.body.supName) {
+    return res.status(400).json({
+      success: false,
+      message: "Supplier name is undefined",
+    });
+  }
+
+  let supName = req.body.supName;
+  console.log(supName)
+
+  Supplier.find({
+      supName: supName,
+    },
+    (err, suppliers) => {
+      console.log("hhhhh")
+      if (err) {
+        console.log("err 2:", err);
+        return res.send({
+          success: false,
+          message: "Error: Server error",
+        });
+      }
+      if (suppliers.length !== 1) {
+        return res.send({
+          success: false,
+          message: "Invalid Supplier",
+        });
+      }
+      console.log("ddd")
+
+      const supplier = suppliers[0];
+
+      Supplier.findById(supplier._id)
+      .populate("items")
+      .then((result) => {
+        res.status(200).json({
+          success: true,
+          data: result,
+        });
+      })
+      .catch((err) => {
+        res.status(502).json({
+          success: false,
+          message: err.message,
+        });
+      });
+    }
+  );
+};
+
 module.exports = {
   addSupplier,
   viewAllSuppliers,
   viewSupplierById,
   updateSupplierDetails,
   deleteSuppliers,
+  supplierByName
 };

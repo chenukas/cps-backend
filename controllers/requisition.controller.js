@@ -44,6 +44,7 @@ const viewRequisition = (req, res) => {
     Requisition.find({})
         .populate("siteId")
         .populate("siteManagerId")
+        .populate("items.productId")
         .then(result => {
             res.status(200).json({
                 success: true,
