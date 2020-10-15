@@ -124,10 +124,40 @@ const deleteSuppliers = (req, res) => {
     });
 };
 
+const getNextSupID = (req, res) => {
+  const start = new Date();
+  start.setMonth(0, 1);
+  start.setHours(0, 0, 0, 0);
+
+  const end = new Date();
+  end.setMonth(11, 31);
+  end.setHours(23, 59, 59, 999);
+
+  Supplier.find({ createdAt: { $gt: start, $lt: end } }, "supId")
+    .sort("-createdAt")
+    .then((result) => {
+      let nextNum =
+        result.length === 0 ? 1 : parseInt(result.shift().supId.slice(-4)) + 1;
+
+      const formattedCount = "000".concat(nextNum).slice(-4);
+      return res.status(200).json({
+        success: true,
+        data: `SP${start.getFullYear().toString().slice(-2)}${formattedCount}`,
+      });
+    })
+    .catch((err) =>
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      })
+    );
+};
+
 module.exports = {
   addSupplier,
   viewAllSuppliers,
   viewSupplierById,
   updateSupplierDetails,
   deleteSuppliers,
+  getNextSupID,
 };
