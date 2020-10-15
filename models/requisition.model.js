@@ -27,7 +27,7 @@ const requisitionSchema = new Schema(
     },
     items: [
       {
-        productId: { type: String },
+        productId: { type: Schema.Types.ObjectId, ref: "item" },
         quantity: { type: Number }
       }
     ],
