@@ -8,6 +8,7 @@ const Site = require("../models/site.model");
 module.exports.register = (req, res, next) => {
   var user = new User();
 
+  user.site = mongoose.Types.ObjectId(req.body.site);
   user.fullName = req.body.fullName;
   user.address = req.body.address;
   user.telephone = req.body.telephone;
@@ -120,13 +121,15 @@ module.exports.userProfileByEmail = (req, res) => {
 
       const user = users[0];
 
-      User.findById(user._id).then((result) => {
-        res.status(200).json({
-          success: true,
-          data: result,
-          message: "Searching ID is found.",
+      User.findById(user._id)
+        .populate("site")
+        .then((result) => {
+          res.status(200).json({
+            success: true,
+            data: result,
+            message: "Searching ID is found.",
+          });
         });
-      });
     }
   );
 };
