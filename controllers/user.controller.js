@@ -8,21 +8,38 @@ const Site = require("../models/site.model");
 module.exports.register = (req, res, next) => {
   var user = new User();
 
-  user.site = mongoose.Types.ObjectId(req.body.site);
-  user.fullName = req.body.fullName;
-  user.address = req.body.address;
-  user.telephone = req.body.telephone;
-  user.userType = req.body.userType;
-  user.email = req.body.email;
-  user.password = req.body.password;
-  user.save((err, doc) => {
-    if (!err) res.send(doc);
-    else {
-      if (err.code == 11000)
-        res.status(422).send(["Email address is already in use."]);
-      else return next(err);
-    }
-  });
+  if (req.body.userType == "2") {
+    user.site = mongoose.Types.ObjectId(req.body.site);
+    user.fullName = req.body.fullName;
+    user.address = req.body.address;
+    user.telephone = req.body.telephone;
+    user.userType = req.body.userType;
+    user.email = req.body.email;
+    user.password = req.body.password;
+    user.save((err, doc) => {
+      if (!err) res.send(doc);
+      else {
+        if (err.code == 11000)
+          res.status(422).send(["Email address is already in use."]);
+        else return next(err);
+      }
+    });
+  } else {
+    user.fullName = req.body.fullName;
+    user.address = req.body.address;
+    user.telephone = req.body.telephone;
+    user.userType = req.body.userType;
+    user.email = req.body.email;
+    user.password = req.body.password;
+    user.save((err, doc) => {
+      if (!err) res.send(doc);
+      else {
+        if (err.code == 11000)
+          res.status(422).send(["Email address is already in use."]);
+        else return next(err);
+      }
+    });
+  }
 };
 
 module.exports.authenticate = (req, res, next) => {
