@@ -1,30 +1,33 @@
 const Requisition = require("../models/requisition.model");
 const mongoose = require("mongoose");
 
+
 const addRequisition = (req, res) => {
-  if (!req.body.requisitionID) {
-    return res.status(400).json({
-      success: false,
-      message: "Requisition ID is undefined",
+
+    if(!req.body.requisitionID) {
+        return res.status(400).json({
+            success: false,
+            message: "Requisition ID is undefined"
+        });
+    }
+
+    if(!req.body.siteId){
+        return res.status(400).json({
+            success: false,
+            message: "Site ID is undefined"
+        });
+    }
+
+    const requisition = new Requisition(req.body);
+
+    requisition.siteId = mongoose.Types.ObjectId(req.body.siteId);
+    requisition.siteManagerId = mongoose.Types.ObjectId(req.body.siteManagerId);
+    requisition.supplierName = mongoose.Types.ObjectId(req.body.supplierName);
+
+    requisition.items.push({
+        productId: req.body.items.productId,
+        quantity: req.body.items.quantity
     });
-  }
-
-  if (!req.body.siteId) {
-    return res.status(400).json({
-      success: false,
-      message: "Site ID is undefined",
-    });
-  }
-
-  const requisition = new Requisition(req.body);
-
-  requisition.siteId = mongoose.Types.ObjectId(req.body.siteId);
-  requisition.siteManagerId = mongoose.Types.ObjectId(req.body.siteManagerId);
-
-  requisition.items.push({
-    productId: req.body.items.productId,
-    quantity: req.body.items.quantity,
-  });
 
   requisition
     .save()
@@ -43,39 +46,61 @@ const addRequisition = (req, res) => {
 };
 
 const viewRequisition = (req, res) => {
-  Requisition.find({})
-    .populate("siteId")
-    .populate("siteManagerId")
-    .populate("items.productId")
-    .then((result) => {
-      res.status(200).json({
-        success: true,
-        data: result,
-      });
-    })
-    .catch((err) => {
-      res.status(501).json({
-        success: false,
-        message: err.message,
-      });
-    });
+    Requisition.find({})
+        .populate("siteId")
+        .populate("siteManagerId")
+        .populate("supplierName")
+        .populate("items.productId")
+        .then(result => {
+            res.status(200).json({
+                success: true,
+                data: result
+            });
+        }).catch(err => {
+            res.status(501).json({
+                success: false,
+                message: err.message
+            });
+        });
+};
+
+const viewRequisitionByPlace = (req, res) => {
+    Requisition.find({place:false})
+        .populate("siteId")
+        .populate("siteManagerId")
+        .populate("supplierName")
+        .populate("items.productId")
+        .then(result => {
+            res.status(200).json({
+                success: true,
+                data: result
+            });
+        }).catch(err => {
+            res.status(501).json({
+                success: false,
+                message: err.message
+            });
+        });
 };
 
 const viewRequisitionById = (req, res) => {
-  Requisition.findById(req.params.id)
-    .then((result) => {
-      res.status(200).json({
-        success: true,
-        data: result,
-      });
-    })
-    .catch((err) => {
-      res.status(502).json({
-        success: false,
-        message: err.message,
-      });
-    });
-};
+    Requisition.findById(req.params.id)
+        .populate("siteId")
+        .populate("siteManagerId")
+        .populate("supplierName")
+        .populate("items.productId")
+        .then(result => {
+            res.status(200).json({
+                success: true,
+                data: result
+            });
+        }).catch(err => {
+            res.status(502).json({
+                success: false,
+                message: err.message
+            });
+        });
+}
 
 const updateStatusById = (req, res) => {
   Requisition.findByIdAndUpdate(
@@ -131,9 +156,10 @@ const getNextRequisitionID = (req, res) => {
 };
 
 module.exports = {
-  addRequisition,
-  viewRequisition,
-  viewRequisitionById,
-  updateStatusById,
-  getNextRequisitionID,
-};
+    addRequisition,
+    viewRequisition,
+    viewRequisitionById,
+    updateStatusById,
+    getNextRequisitionID,
+    viewRequisitionByPlace
+}
