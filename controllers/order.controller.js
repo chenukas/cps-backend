@@ -1,6 +1,7 @@
 const Order = require('../models/order.model');
 const Requisition = require('../models/requisition.model');
 const mongoose = require("mongoose");
+const Requisition = require('../models/requisition.model');
 
 const addOrder = (req, res) => {
 
@@ -22,7 +23,25 @@ const addOrder = (req, res) => {
 
     order.requisitionID = mongoose.Types.ObjectId(req.body.requisitionID);
 
-    order.save().then(result => {
+    order.save()
+    .then(() => {
+        Requisition.findByIdAndUpdate(req.body.requisitionID, {
+            place:true
+        })
+          .then((result) => {
+            res.status(200).json({
+              success: true,
+              data: result,
+            });
+          })
+          .catch((err) => {
+            res.status(500).json({
+              success: false,
+              message: err.message,
+            });
+          });
+      })
+      .then(result => {
         res.status(200).json({
             success: true,
             data: result
