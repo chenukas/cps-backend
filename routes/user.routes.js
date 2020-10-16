@@ -11,5 +11,6 @@ router.get("/userProfile", jwtHelper.verifyJwtToken, ctrlUser.userProfile);
 router.post("/sign", ctrlUser.userProfileByEmail);
 router.get("/users", ctrlUser.getAllUsers);
 router.delete("/users/:id", ctrlUser.deleteUserById);
+router.get("/sitemanagers", ctrlUser.getSiteManagers);
 
 module.exports = router;
