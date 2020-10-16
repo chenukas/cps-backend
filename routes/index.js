@@ -4,6 +4,7 @@ const sitesRouter = require("./site.routes");
 const suppliersRouter = require("./supplier.routes");
 const orderRouter = require("./order.routes");
 const itemsRouter = require("./item.routes");
+const statisticRouter = require("./statistic.routes");
 
 const init = (app) => {
   app.use(requsitionsRouter);
@@ -12,6 +13,7 @@ const init = (app) => {
   app.use(suppliersRouter);
   app.use(itemsRouter);
   app.use(orderRouter);
+  app.use(statisticRouter);
 };
 
 module.exports = init;
