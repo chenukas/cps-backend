@@ -1,4 +1,5 @@
 const Order = require('../models/order.model');
+const Requisition = require('../models/requisition.model');
 const mongoose = require("mongoose");
 
 const addOrder = (req, res) => {
@@ -50,6 +51,24 @@ const viewOrder = (req, res) => {
         });
 };
 
+const viewOrderById = (req, res) => {
+    Order.findById(req.params.id)
+      .populate("requisitionID")
+      .populate("requisitionID.items")
+      .then((result) => {
+        res.status(200).json({
+          success: true,
+          data: result,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          success: false,
+          message: err.message,
+        });
+      });
+  };
+
 const getNextOrderID = (req, res) => {
 
     const start = new Date();
@@ -85,5 +104,6 @@ const getNextOrderID = (req, res) => {
 module.exports = {
     addOrder,
     viewOrder,
+    viewOrderById,
     getNextOrderID
 }
