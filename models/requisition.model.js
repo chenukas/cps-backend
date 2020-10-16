@@ -24,8 +24,9 @@ const requisitionSchema = new Schema(
       ref: "site",
     },
     supplierName: {
-      type: Schema.Types.ObjectId, ref: "supplier",
-      required: true
+      type: Schema.Types.ObjectId,
+      ref: "supplier",
+      required: true,
     },
     items: [
       {
@@ -39,10 +40,11 @@ const requisitionSchema = new Schema(
     },
     status: {
       type: String,
-      required: true
+      required: true,
     },
     place: {
-      type: Boolean
+      type: Boolean,
+      default: false,
     },
     comments: { type: String },
   },
