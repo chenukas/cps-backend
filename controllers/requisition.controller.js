@@ -1,5 +1,6 @@
 const Requisition = require("../models/requisition.model");
 const mongoose = require("mongoose");
+const Site = require("../models/site.model");
 
 const addRequisition = (req, res) => {
   if (!req.body.requisitionID) {
@@ -103,11 +104,34 @@ const viewRequisitionById = (req, res) => {
     });
 };
 
-const updateStatusById = (req, res) => {
+const approveRequisitionById = (req, res) => {
   Requisition.findByIdAndUpdate(
     req.params.id,
     {
-      status: req.body.status,
+      status: "Approved",
+      comments: req.body.comments,
+    },
+    { new: true }
+  )
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    })
+    .catch((err) => {
+      res.status(503).json({
+        success: false,
+        message: err.message,
+      });
+    });
+};
+
+const declineRequisitionById = (req, res) => {
+  Requisition.findByIdAndUpdate(
+    req.params.id,
+    {
+      status: "Declined",
       comments: req.body.comments,
     },
     { new: true }
@@ -161,7 +185,8 @@ module.exports = {
   addRequisition,
   viewRequisition,
   viewRequisitionById,
-  updateStatusById,
+  approveRequisitionById,
   getNextRequisitionID,
   viewRequisitionByPlace,
+  declineRequisitionById,
 };
