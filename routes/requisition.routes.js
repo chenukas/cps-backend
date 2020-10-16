@@ -7,5 +7,6 @@ router.get('/requisitions/:id', requisitionController.viewRequisitionById);
 router.put('/requisitions/:id', requisitionController.updaterequisitionById);
 router.put('/requisitions/:id', requisitionController.updateStatusById);
 router.get('/getRequisitionNumber', requisitionController.getNextRequisitionID);
+router.get('/viewPlaceRequisition', requisitionController.viewRequisitionByPlace);
 
 module.exports = router;
