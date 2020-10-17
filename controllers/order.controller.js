@@ -92,7 +92,7 @@ const changeOrderState = (req, res) => {
   Order.findByIdAndUpdate(
     req.params.id,
     {
-      delivery: true,
+      status: 'Deliverd',
     },
     { new: true }
   ).then((result) => {
