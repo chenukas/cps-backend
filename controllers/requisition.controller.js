@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Site = require("../models/site.model");
 
 const addRequisition = (req, res) => {
+
   if (!req.body.requisitionID) {
     return res.status(400).json({
       success: false,
@@ -10,23 +11,30 @@ const addRequisition = (req, res) => {
     });
   }
 
-  if (!req.body.siteId) {
-    return res.status(400).json({
-      success: false,
-      message: "Site ID is undefined",
+    if(!req.body.requisitionID) {
+        return res.status(400).json({
+            success: false,
+            message: "Requisition ID is undefined"
+        });
+    }
+
+    if(!req.body.siteId){
+        return res.status(400).json({
+            success: false,
+            message: "Site ID is undefined"
+        });
+    }
+    
+    const requisition = new Requisition(req.body);
+
+    requisition.siteId = mongoose.Types.ObjectId(req.body.siteId);
+    requisition.siteManagerId = mongoose.Types.ObjectId(req.body.siteManagerId);
+    requisition.supplierName = mongoose.Types.ObjectId(req.body.supplierName);
+
+    requisition.items.push({
+        productId: req.body.items.productId,
+        quantity: req.body.items.quantity
     });
-  }
-
-  const requisition = new Requisition(req.body);
-
-  requisition.siteId = mongoose.Types.ObjectId(req.body.siteId);
-  requisition.siteManagerId = mongoose.Types.ObjectId(req.body.siteManagerId);
-  requisition.supplierName = mongoose.Types.ObjectId(req.body.supplierName);
-
-  requisition.items.push({
-    productId: req.body.items.productId,
-    quantity: req.body.items.quantity,
-  });
 
   requisition
     .save()
@@ -82,6 +90,35 @@ const viewRequisitionByPlace = (req, res) => {
         message: err.message,
       });
     });
+};
+
+const viewRequisitionByManagerID = (req, res) => {
+
+  if(!req.body.siteManagerId) {
+    return res.status(400).json({
+        success: false,
+        message: "siteManager ID is undefined"
+    });
+}
+
+const siteManagerId = req.body.siteManagerId;
+
+  Requisition.find({place:false,siteManagerId:siteManagerId})
+      .populate("siteId")
+      .populate("siteManagerId")
+      .populate("supplierName")
+      .populate("items.productId")
+      .then(result => {
+          res.status(200).json({
+              success: true,
+              data: result
+          });
+      }).catch(err => {
+          res.status(501).json({
+              success: false,
+              message: err.message
+          });
+      });
 };
 
 const viewRequisitionById = (req, res) => {
@@ -189,4 +226,6 @@ module.exports = {
   getNextRequisitionID,
   viewRequisitionByPlace,
   declineRequisitionById,
+  viewRequisitionByManagerID
 };
+

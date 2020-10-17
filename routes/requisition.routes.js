@@ -17,5 +17,6 @@ router.get(
   "/viewPlaceRequisition",
   requisitionController.viewRequisitionByPlace
 );
+router.post('/viewRequisitions', requisitionController.viewRequisitionByManagerID);
 
 module.exports = router;
