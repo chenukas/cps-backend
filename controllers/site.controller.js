@@ -173,6 +173,22 @@ const getNextSiteID = (req, res) => {
     );
 };
 
+const getAllSiteNamesAndBudgets = (req, res) => {
+  Site.find({}, { siteName: 1, budget: 1, _id: 0 })
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    })
+    .catch((err) => {
+      res.status(501).json({
+        success: false,
+        message: err.message,
+      });
+    });
+};
+
 module.exports = {
   addSite,
   viewSites,
@@ -181,4 +197,5 @@ module.exports = {
   deleteSiteById,
   getNextSiteID,
   uppdateBudgetWhenApproved,
+  getAllSiteNamesAndBudgets,
 };

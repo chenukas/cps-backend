@@ -8,5 +8,6 @@ router.put("/sites/:id", siteController.updateSiteDetails);
 router.delete("/sites/:id", siteController.deleteSiteById);
 router.get("/getSiteNumber", siteController.getNextSiteID);
 router.put("/sites/:id/budget", siteController.uppdateBudgetWhenApproved);
+router.get("/sitestats", siteController.getAllSiteNamesAndBudgets);
 
 module.exports = router;
