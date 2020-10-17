@@ -13,7 +13,8 @@ const orderSchema = new Schema(
     status: {
       type: String,
       required: true
-    }
+    },
+    delivery: { type: Boolean, default: false }
   },
   { timestamps: true }
 );
