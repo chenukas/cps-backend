@@ -5,18 +5,18 @@ const Requisition = require('../models/requisition.model');
 
 const addOrder = (req, res) => {
 
-  if (!req.body.orderID) {
-    return res.status(400).json({
-      success: false,
-      message: "Order ID is undefined"
-    });
+  if(!req.body.orderID) {
+      return res.status(400).json({
+          success: false,
+          message: "Order ID is undefined"
+      });
   }
 
-  if (!req.body.requisitionID) {
-    return res.status(400).json({
-      success: false,
-      message: "Requisition ID is undefined"
-    });
+  if(!req.body.requisitionID){
+      return res.status(400).json({
+          success: false,
+          message: "Requisition ID is undefined"
+      });
   }
 
   const order = new Order(req.body);
@@ -24,9 +24,9 @@ const addOrder = (req, res) => {
   order.requisitionID = mongoose.Types.ObjectId(req.body.requisitionID);
 
   order.save()
-    .then(() => {
+  .then(() => {
       Requisition.findByIdAndUpdate(req.body.requisitionID, {
-        place: true
+          place:true
       })
         .then((result) => {
           res.status(200).json({
@@ -43,15 +43,15 @@ const addOrder = (req, res) => {
     })
     .then(result => {
       res.status(200).json({
-        success: true,
-        data: result
-      });
-    }).catch(err => {
+          success: true,
+          data: result
+      });     
+  }).catch(err => {
       res.status(500).json({
-        success: false,
-        message: err.message
+          success: false,
+          message: err.message
       });
-    });
+  });
 };
 
 const viewOrder = (req, res) => {
