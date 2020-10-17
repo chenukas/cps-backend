@@ -19,8 +19,6 @@ const addSite = (req, res) => {
 
   const site = new Site(req.body);
 
-  site.siteManagerName = mongoose.Types.ObjectId(req.body.siteManagerName);
-
   site
     .save()
     .then((result) => {
@@ -39,7 +37,6 @@ const addSite = (req, res) => {
 
 const viewSites = (req, res) => {
   Site.find({})
-    .populate("siteManagerName")
     .then((result) => {
       res.status(200).json({
         success: true,
@@ -90,9 +87,30 @@ const updateSiteDetails = (req, res) => {
     {
       siteNo: req.body.siteNo,
       siteName: req.body.siteName,
-      siteManagerName: req.body.siteManagerName,
       location: req.body.location,
       budget: req.body.budget,
+    },
+    { new: true }
+  )
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    })
+    .catch((err) => {
+      res.status(503).json({
+        success: false,
+        message: err.message,
+      });
+    });
+};
+
+const uppdateBudgetWhenApproved = (req, res) => {
+  Site.findByIdAndUpdate(
+    req.params.id,
+    {
+      budget: req.body.remainingBudget,
     },
     { new: true }
   )
@@ -162,4 +180,5 @@ module.exports = {
   updateSiteDetails,
   deleteSiteById,
   getNextSiteID,
+  uppdateBudgetWhenApproved,
 };

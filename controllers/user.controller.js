@@ -90,6 +90,22 @@ module.exports.getAllUsers = (req, res, next) => {
     });
 };
 
+module.exports.getSiteManagers = (req, res, next) => {
+  User.find({ userType: "2" })
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    });
+};
+
 module.exports.deleteUserById = (req, res, next) => {
   User.findByIdAndDelete(req.params.id)
     .then((result) => {

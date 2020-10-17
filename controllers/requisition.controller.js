@@ -1,8 +1,15 @@
 const Requisition = require("../models/requisition.model");
 const mongoose = require("mongoose");
-
+const Site = require("../models/site.model");
 
 const addRequisition = (req, res) => {
+
+  if (!req.body.requisitionID) {
+    return res.status(400).json({
+      success: false,
+      message: "Requisition ID is undefined",
+    });
+  }
 
     if(!req.body.requisitionID) {
         return res.status(400).json({
@@ -17,9 +24,7 @@ const addRequisition = (req, res) => {
             message: "Site ID is undefined"
         });
     }
-
-    console.log("set")
-
+    
     const requisition = new Requisition(req.body);
 
     requisition.siteId = mongoose.Types.ObjectId(req.body.siteId);
@@ -30,8 +35,6 @@ const addRequisition = (req, res) => {
         productId: req.body.items.productId,
         quantity: req.body.items.quantity
     });
-
-    console.log("set")
 
   requisition
     .save()
@@ -50,41 +53,43 @@ const addRequisition = (req, res) => {
 };
 
 const viewRequisition = (req, res) => {
-    Requisition.find({})
-        .populate("siteId")
-        .populate("siteManagerId")
-        .populate("supplierName")
-        .populate("items.productId")
-        .then(result => {
-            res.status(200).json({
-                success: true,
-                data: result
-            });
-        }).catch(err => {
-            res.status(501).json({
-                success: false,
-                message: err.message
-            });
-        });
+  Requisition.find({})
+    .populate("siteId")
+    .populate("siteManagerId")
+    .populate("supplierName")
+    .populate("items.productId")
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    })
+    .catch((err) => {
+      res.status(501).json({
+        success: false,
+        message: err.message,
+      });
+    });
 };
 
 const viewRequisitionByPlace = (req, res) => {
-    Requisition.find({place:false})
-        .populate("siteId")
-        .populate("siteManagerId")
-        .populate("supplierName")
-        .populate("items.productId")
-        .then(result => {
-            res.status(200).json({
-                success: true,
-                data: result
-            });
-        }).catch(err => {
-            res.status(501).json({
-                success: false,
-                message: err.message
-            });
-        });
+  Requisition.find({ place: false })
+    .populate("siteId")
+    .populate("siteManagerId")
+    .populate("supplierName")
+    .populate("items.productId")
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    })
+    .catch((err) => {
+      res.status(501).json({
+        success: false,
+        message: err.message,
+      });
+    });
 };
 
 const viewRequisitionByManagerID = (req, res) => {
@@ -117,29 +122,54 @@ const siteManagerId = req.body.siteManagerId;
 };
 
 const viewRequisitionById = (req, res) => {
-    Requisition.findById(req.params.id)
-        .populate("siteId")
-        .populate("siteManagerId")
-        .populate("supplierName")
-        .populate("items.productId")
-        .then(result => {
-            res.status(200).json({
-                success: true,
-                data: result
-            });
-        }).catch(err => {
-            res.status(502).json({
-                success: false,
-                message: err.message
-            });
-        });
-}
+  Requisition.findById(req.params.id)
+    .populate("siteId")
+    .populate("siteManagerId")
+    .populate("supplierName")
+    .populate("items.productId")
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    })
+    .catch((err) => {
+      res.status(502).json({
+        success: false,
+        message: err.message,
+      });
+    });
+};
 
-const updateStatusById = (req, res) => {
+const approveRequisitionById = (req, res) => {
   Requisition.findByIdAndUpdate(
     req.params.id,
     {
-      status: req.body.status,
+      status: "Approved",
+      comments: req.body.comments,
+    },
+    { new: true }
+  )
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    })
+    .catch((err) => {
+      res.status(503).json({
+        success: false,
+        message: err.message,
+      });
+    });
+};
+
+const declineRequisitionById = (req, res) => {
+  Requisition.findByIdAndUpdate(
+    req.params.id,
+    {
+      status: "Declined",
+      comments: req.body.comments,
     },
     { new: true }
   )
@@ -189,11 +219,13 @@ const getNextRequisitionID = (req, res) => {
 };
 
 module.exports = {
-    addRequisition,
-    viewRequisition,
-    viewRequisitionById,
-    updateStatusById,
-    getNextRequisitionID,
-    viewRequisitionByPlace,
-    viewRequisitionByManagerID
-}
+  addRequisition,
+  viewRequisition,
+  viewRequisitionById,
+  approveRequisitionById,
+  getNextRequisitionID,
+  viewRequisitionByPlace,
+  declineRequisitionById,
+  viewRequisitionByManagerID
+};
+
