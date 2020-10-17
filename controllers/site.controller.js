@@ -106,6 +106,28 @@ const updateSiteDetails = (req, res) => {
     });
 };
 
+const uppdateBudgetWhenApproved = (req, res) => {
+  Site.findByIdAndUpdate(
+    req.params.id,
+    {
+      budget: req.body.remainingBudget,
+    },
+    { new: true }
+  )
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    })
+    .catch((err) => {
+      res.status(503).json({
+        success: false,
+        message: err.message,
+      });
+    });
+};
+
 const deleteSiteById = (req, res) => {
   Site.findByIdAndDelete(req.params.id)
     .then((result) => {
@@ -158,4 +180,5 @@ module.exports = {
   updateSiteDetails,
   deleteSiteById,
   getNextSiteID,
+  uppdateBudgetWhenApproved,
 };
