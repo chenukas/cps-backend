@@ -1,7 +1,8 @@
 const Order = require('../models/order.model');
 const Requisition = require('../models/requisition.model');
 const mongoose = require("mongoose");
-const Requisition = require('../models/requisition.model');
+const siteModel = require('../models/site.model');
+const userModel = require('../models/user.model');
 
 const addOrder = (req, res) => {
 
@@ -56,13 +57,30 @@ const addOrder = (req, res) => {
 
 const viewOrder = (req, res) => {
   Order.find({})
-    .populate("requisitionID")
+    .populate({
+      path: 'requisitionID',
+      populate: [
+        {
+          path: 'siteId',
+          model: 'site'
+        },
+        {
+          path: 'siteManagerId',
+          model: 'User'
+        },
+        {
+          path: 'supplierName',
+          model: 'supplier'
+        }
+      ]
+    })
     .then(result => {
       res.status(200).json({
         success: true,
         data: result
       });
     }).catch(err => {
+      console.log(err);
       res.status(501).json({
         success: false,
         message: err.message
