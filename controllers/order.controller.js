@@ -110,7 +110,7 @@ const changeOrderState = (req, res) => {
   Order.findByIdAndUpdate(
     req.params.id,
     {
-      status: 'Deliverd',
+      status: 'Delivered',
     },
     { new: true }
   ).then((result) => {
@@ -125,6 +125,22 @@ const changeOrderState = (req, res) => {
       message: err.message,
     });
   });
+};
+
+const viewDeliveredOrders = (req, res) => {
+  Order.find({ status: 'Delivered' })
+    .then((result) => {
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    });
 };
 
 const getNextOrderID = (req, res) => {
@@ -164,5 +180,6 @@ module.exports = {
   viewOrder,
   viewOrderById,
   changeOrderState,
+  viewDeliveredOrders,
   getNextOrderID
 }
