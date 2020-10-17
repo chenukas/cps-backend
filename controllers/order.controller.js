@@ -128,7 +128,24 @@ const changeOrderState = (req, res) => {
 };
 
 const viewDeliveredOrders = (req, res) => {
-  Order.find({ status: 'Delivered' })
+  Order.find({ status: req.params.status })
+    .populate({
+      path: 'requisitionID',
+      populate: [
+        {
+          path: 'siteId',
+          model: 'site'
+        },
+        {
+          path: 'siteManagerId',
+          model: 'User'
+        },
+        {
+          path: 'supplierName',
+          model: 'supplier'
+        }
+      ]
+    })
     .then((result) => {
       res.status(200).json({
         success: true,
