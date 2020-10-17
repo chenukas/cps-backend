@@ -19,8 +19,6 @@ const addSite = (req, res) => {
 
   const site = new Site(req.body);
 
-  site.siteManagerName = mongoose.Types.ObjectId(req.body.siteManagerName);
-
   site
     .save()
     .then((result) => {
@@ -39,7 +37,6 @@ const addSite = (req, res) => {
 
 const viewSites = (req, res) => {
   Site.find({})
-    .populate("siteManagerName")
     .then((result) => {
       res.status(200).json({
         success: true,
@@ -90,7 +87,6 @@ const updateSiteDetails = (req, res) => {
     {
       siteNo: req.body.siteNo,
       siteName: req.body.siteName,
-      siteManagerName: req.body.siteManagerName,
       location: req.body.location,
       budget: req.body.budget,
     },
