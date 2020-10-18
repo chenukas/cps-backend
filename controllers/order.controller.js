@@ -77,6 +77,10 @@ const viewOrder = (req, res) => {
         {
           path: 'supplierName',
           model: 'supplier'
+        },
+        {
+          path: 'items.productId',
+          model: 'item'
         }
       ]
     })
@@ -158,6 +162,10 @@ const viewDeliveredOrders = (req, res) => {
         {
           path: 'supplierName',
           model: 'supplier'
+        }, 
+        {
+          path: 'items.productId',
+          model: 'item'
         }
       ]
     })
