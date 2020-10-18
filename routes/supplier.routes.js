@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const supplierController = require("../controllers/supplier.controller");
 
+//supplier routes
 router.post("/suppliers", supplierController.addSupplier);
 router.get("/suppliers", supplierController.viewAllSuppliers);
 router.get("/suppliers/:id", supplierController.viewSupplierById);

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+//supplier model
 const supplierSchema = new Schema(
   {
     supId: { type: String, required: true, unique: true },
