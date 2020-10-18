@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const itemController = require("../controllers/item.controller");
 
+//items routes
 router.post("/items", itemController.addItem);
 router.get("/items", itemController.viewAllItems);
 router.get("/items/:id", itemController.viewItemById);

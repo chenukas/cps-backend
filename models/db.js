@@ -1,3 +1,4 @@
+//Initialize db instance
 const mongoose = require("mongoose");
 
 mongoose.connect(process.env.MONGODB_URI, (err) => {

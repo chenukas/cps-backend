@@ -3,6 +3,7 @@ const Supplier = require("../models/supplier.model");
 const mongoose = require("mongoose");
 const { response } = require("express");
 
+//method to add items
 const addItem = (req, res) => {
   if (!req.body.itemName) {
     return res.status(400).json({
@@ -44,6 +45,7 @@ const addItem = (req, res) => {
     });
 };
 
+//method to view all items
 const viewAllItems = (req, res) => {
   Item.find({})
     .populate("supplier")
@@ -61,6 +63,7 @@ const viewAllItems = (req, res) => {
     });
 };
 
+//method to view item by Id
 const viewItemById = (req, res) => {
   Item.findById(req.params.id)
     .populate("supplier")
@@ -78,6 +81,7 @@ const viewItemById = (req, res) => {
     });
 };
 
+//method to update item
 const updateItemById = (req, res) => {
   if (!req.body.itemName) {
     return res.status(400).json({
@@ -110,6 +114,7 @@ const updateItemById = (req, res) => {
     });
 };
 
+//method to delete item by Id
 const deleteItemById = (req, res) => {
   Item.findByIdAndDelete(req.params.id)
     .then((result) => {

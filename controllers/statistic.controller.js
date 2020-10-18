@@ -1,5 +1,6 @@
 const Requisition = require("../models/requisition.model");
 
+//method to get count of requisitions by status
 const getRequisitionCountByStatus = async (req, res) => {
   try {
     const approvedReqCount = await Requisition.find({

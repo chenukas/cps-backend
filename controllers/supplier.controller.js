@@ -2,6 +2,7 @@ const Supplier = require("../models/supplier.model");
 const mongoose = require("mongoose");
 const Item = require("../models/item.model");
 
+//method to add supplier
 const addSupplier = (req, res) => {
   if (!req.body.supId) {
     return res.status(400).json({
@@ -35,6 +36,7 @@ const addSupplier = (req, res) => {
     });
 };
 
+//method to view all suppliers
 const viewAllSuppliers = (req, res) => {
   Supplier.find({})
     .populate("items")
@@ -52,6 +54,7 @@ const viewAllSuppliers = (req, res) => {
     });
 };
 
+//method to view supplier by Id
 const viewSupplierById = (req, res) => {
   Supplier.findById(req.params.id)
     .then((result) => {
@@ -68,6 +71,7 @@ const viewSupplierById = (req, res) => {
     });
 };
 
+//method to update supplier details
 const updateSupplierDetails = (req, res) => {
   if (!req.body.supId) {
     return res.status(400).json({
@@ -108,6 +112,7 @@ const updateSupplierDetails = (req, res) => {
     });
 };
 
+//method to delete supplier
 const deleteSuppliers = (req, res) => {
   Supplier.findByIdAndDelete(req.params.id)
     .then((result) => {
@@ -124,6 +129,7 @@ const deleteSuppliers = (req, res) => {
     });
 };
 
+//method to get supplier by name
 const supplierByName = (req, res) => {
   if (!req.body.supName) {
     return res.status(400).json({
@@ -176,6 +182,7 @@ const supplierByName = (req, res) => {
   );
 };
 
+//method to generate next supplier Id
 const getNextSupID = (req, res) => {
   const start = new Date();
   start.setMonth(0, 1);
