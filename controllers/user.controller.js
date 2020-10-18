@@ -5,6 +5,7 @@ const _ = require("lodash");
 const User = mongoose.model("User");
 const Site = require("../models/site.model");
 
+//method to register users
 module.exports.register = (req, res, next) => {
   var user = new User();
 
@@ -42,6 +43,7 @@ module.exports.register = (req, res, next) => {
   }
 };
 
+//method to authenticate user
 module.exports.authenticate = (req, res, next) => {
   // call for passport authentication
   passport.authenticate("local", (err, user, info) => {
@@ -54,6 +56,7 @@ module.exports.authenticate = (req, res, next) => {
   })(req, res);
 };
 
+//method to retrieve user profile of logged in user
 module.exports.userProfile = (req, res, next) => {
   User.findOne({ _id: req._id }, (err, user) => {
     if (!user)
@@ -74,6 +77,7 @@ module.exports.userProfile = (req, res, next) => {
   });
 };
 
+//method to get all users' details
 module.exports.getAllUsers = (req, res, next) => {
   User.find({})
     .then((result) => {
@@ -90,6 +94,7 @@ module.exports.getAllUsers = (req, res, next) => {
     });
 };
 
+//method to get site managers' details
 module.exports.getSiteManagers = (req, res, next) => {
   User.find({ userType: "2" })
     .then((result) => {
@@ -106,6 +111,7 @@ module.exports.getSiteManagers = (req, res, next) => {
     });
 };
 
+//method to delete user by Id
 module.exports.deleteUserById = (req, res, next) => {
   User.findByIdAndDelete(req.params.id)
     .then((result) => {
@@ -122,6 +128,7 @@ module.exports.deleteUserById = (req, res, next) => {
     });
 };
 
+//method to get user profile by Email
 module.exports.userProfileByEmail = (req, res) => {
   if (!req.body.email) {
     return res.status(400).json({

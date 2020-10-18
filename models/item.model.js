@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+//item model
 const itemSchema = new Schema(
   {
     itemName: { type: String, required: true },
