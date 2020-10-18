@@ -29,8 +29,6 @@ const generateInvoice = async (req, res) => {
           ]
         });
 
-        console.log(order);
-
         const path = `${__dirname}/${order.orderID}-${new Date().getTime()}.pdf`;
         const doc = new pdf({ margin: 50 });
         generateHeader(doc, 'Invoice');
@@ -48,7 +46,6 @@ const generateInvoice = async (req, res) => {
             }
         }
 
-        console.log('Order Items:', items);
 
         const invoiceObject = {
             from: 'Heavy Construction',
@@ -58,7 +55,6 @@ const generateInvoice = async (req, res) => {
             vatNumber: VAT_NUMBER
           };
 
-        console.log('Invoice object: ', invoiceObject);
         generateCustomerInformation(doc, invoiceObject);
         generateInvoiceTable(doc, invoiceObject);
         doc.end();
