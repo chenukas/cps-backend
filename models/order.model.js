@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+/**
+ * Order Model
+ * */
 const orderSchema = new Schema(
   {
     orderID: {

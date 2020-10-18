@@ -4,6 +4,9 @@ const mongoose = require("mongoose");
 const siteModel = require('../models/site.model');
 const userModel = require('../models/user.model');
 
+/**
+ * use to add Order to database
+ * */
 const addOrder = (req, res) => {
 
   if(!req.body.orderID) {
@@ -55,6 +58,9 @@ const addOrder = (req, res) => {
   });
 };
 
+/**
+ * use to Retrieve all Orders from database
+ * */
 const viewOrder = (req, res) => {
   Order.find({})
     .populate({
@@ -88,6 +94,9 @@ const viewOrder = (req, res) => {
     });
 };
 
+/**
+ * use to Retrieve Order by object id from database
+ * */
 const viewOrderById = (req, res) => {
   Order.findById(req.params.id)
     .populate("requisitionID")
@@ -106,6 +115,9 @@ const viewOrderById = (req, res) => {
     });
 };
 
+/**
+ * use to update order state
+ * */
 const changeOrderState = (req, res) => {
   Order.findByIdAndUpdate(
     req.params.id,
@@ -127,6 +139,9 @@ const changeOrderState = (req, res) => {
   });
 };
 
+/**
+ * use to Retrieve delivered orders
+ * */
 const viewDeliveredOrders = (req, res) => {
   Order.find({ status: req.params.status })
     .populate({
@@ -160,6 +175,9 @@ const viewDeliveredOrders = (req, res) => {
     });
 };
 
+/**
+ * use to generate next order id
+ * */
 const getNextOrderID = (req, res) => {
 
   const start = new Date();

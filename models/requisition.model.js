@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+/**
+ * Requisition Model
+ * */
 const requisitionSchema = new Schema(
   {
     requisitionID: {
