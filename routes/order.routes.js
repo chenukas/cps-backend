@@ -2,6 +2,9 @@ const router = require("express").Router();
 const orderController = require("../controllers/order.controller");
 const invoiceController = require("../controllers/invoice.controller");
 
+/**
+ * Order routes
+ * */
 router.get('/getOrderNumber', orderController.getNextOrderID);
 router.post('/orders', orderController.addOrder);
 router.get('/orders', orderController.viewOrder);

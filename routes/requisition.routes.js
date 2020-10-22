@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const requisitionController = require("../controllers/requisition.controller");
 
+/**
+ * Requisition routes
+ * */
 router.post("/requisitions", requisitionController.addRequisition);
 router.get("/requisitions", requisitionController.viewRequisition);
 router.get("/requisitions/:id", requisitionController.viewRequisitionById);
