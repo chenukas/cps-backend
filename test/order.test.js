@@ -15,6 +15,9 @@ describe('Order Delivery Controller', () => {
             .end((err, response) => {
                 expect(err).to.be.null;
                 expect(response).to.have.status(200);
+                expect(response.body).to.haveOwnProperty('success').eq(true);
+                expect(response.body).to.haveOwnProperty('data');
+                expect(response.body.data).to.haveOwnProperty('status').eq('Delivered');
                 done();
             });
     });
