@@ -1,8 +1,8 @@
-const orderRouter = require('../routes/order.routes')
+/*const orderRouter = require('../routes/order.routes')
 const Order = require('../models/order.model')
-const assert = require('assert');
+const assert = require('assert');*/
 
-describe("Create Orders", () => {
+/*describe("Create Orders", () => {
     it("create a order in DB", () => {
         const order = new Order({
             orderID:"19",
@@ -17,9 +17,9 @@ describe("Create Orders", () => {
             console.log("error");
         })
     });
-});
+});*/
 
-describe("Retrieve orders", ()=>{
+/*describe("Retrieve orders", ()=>{
     let order;
     /*beforeEach((done) => {
         order = Order({
@@ -33,7 +33,7 @@ describe("Retrieve orders", ()=>{
         })
     })*/
 
-    it("Order Read", ()=> {
+    /*it("Order Read", ()=> {
         Order.find({
             orderID:"5f8a87d06027a1266c2f512f"
         }).then(orders => {
@@ -41,4 +41,4 @@ describe("Retrieve orders", ()=>{
             done();
         })
     })
-})
+})*/

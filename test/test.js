@@ -1,17 +1,17 @@
-const orderRouter = require('../routes/order.routes')
-const Order = require('../models/order.model')
+const siteRouter = require('../routes/site.routes');
+const Site = require('../models/site.model');
 const assert = require('assert');
 
-describe("Create Orders", () => {
-    it("create a order in DB", () => {
-        const order = new Order({
-            orderID:"19",
-            requisitionID:"5f8ab6f91f68124ffc8b9822",
-            status:"pending"
+describe("Add Site", () => {
+    it("add a site in DB", () => {
+        const site = new Site({
+            siteNo:"S200002",
+            siteName:"Altair",
+            location:"Colombo 5"
         });
-        order.save()
+       site.save()
         .then(()=> {
-            assert(!order.isNew);
+            assert(!site.isNew);
         })
         .catch(()=> {
             console.log("error");
@@ -19,26 +19,27 @@ describe("Create Orders", () => {
     });
 });
 
-describe("Retrieve orders", ()=>{
-    let order;
+describe("View Site Details", ()=>{
+    let site;
     /*beforeEach((done) => {
-        order = Order({
-            orderID:"5f8a87d06027a1266c2f512f",
-            requisitionID:"5f8ab6f91f68124ffc8b9822",
-            status:"pending"
+        site = Site({
+            _id:"5f8a06f8072b9b31186ce355",
+            siteName:"Altair",
+            location:"Colombo 5"
         })
-        order.save()
+        site.save()
         .then(()=> {
             done();
         })
     })*/
 
-    it("Order Read", ()=> {
-        Order.find({
-            orderID:"5f8a87d06027a1266c2f512f"
-        }).then(orders => {
-            assert(order._id.toString() === orders[0]._id.toString());
+    it("View Site", ()=> {
+        Site.find({
+            siteID:"5f8a06f8072b9b31186ce355"
+        }).then(sites => {
+            assert(site._id.toString() === sites[0]._id.toString());
             done();
-        })
-    })
-})
+        });
+    });
+});
+
