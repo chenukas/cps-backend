@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "nodemon index.js"
   },
   "author": "",
@@ -12,14 +12,20 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.10",
+    "mockgoose": "^8.0.4",
     "mongoose": "^5.10.8",
     "nodemon": "^2.0.4",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pdfkit": "^0.11.0"
+  },
+  "devDependencies": {
+    "mocha": "^8.2.0",
+    "supertest": "^5.0.0"
   }
 }
