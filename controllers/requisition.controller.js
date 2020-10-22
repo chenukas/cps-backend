@@ -2,6 +2,9 @@ const Requisition = require("../models/requisition.model");
 const mongoose = require("mongoose");
 const Site = require("../models/site.model");
 
+/**
+ * use to add Requisition to database
+ * */
 const addRequisition = (req, res) => {
 
   if (!req.body.requisitionID) {
@@ -52,6 +55,9 @@ const addRequisition = (req, res) => {
     });
 };
 
+/**
+ * use to Retrieve all Requisitions from database
+ * */
 const viewRequisition = (req, res) => {
   Requisition.find({})
     .populate("siteId")
@@ -72,6 +78,9 @@ const viewRequisition = (req, res) => {
     });
 };
 
+/**
+ * use to Retrieve Requisition by place attribute from database
+ * */
 const viewRequisitionByPlace = (req, res) => {
   Requisition.find({ place: false })
     .populate("siteId")
@@ -92,6 +101,9 @@ const viewRequisitionByPlace = (req, res) => {
     });
 };
 
+/**
+ * use to Retrieve Requisition by Manager attribute from database
+ * */
 const viewRequisitionByManagerID = (req, res) => {
 
   if(!req.body.siteManagerId) {
@@ -121,6 +133,9 @@ const siteManagerId = req.body.siteManagerId;
       });
 };
 
+/**
+ * use to Retrieve Requisition by object id from database
+ * */
 const viewRequisitionById = (req, res) => {
   Requisition.findById(req.params.id)
     .populate("siteId")
@@ -141,6 +156,9 @@ const viewRequisitionById = (req, res) => {
     });
 };
 
+/**
+ * use to update Requisition status attribute to approve
+ * */
 const approveRequisitionById = (req, res) => {
   Requisition.findByIdAndUpdate(
     req.params.id,
@@ -164,6 +182,9 @@ const approveRequisitionById = (req, res) => {
     });
 };
 
+/**
+ * use to update Requisition status attribute to decline
+ * */
 const declineRequisitionById = (req, res) => {
   Requisition.findByIdAndUpdate(
     req.params.id,
@@ -187,6 +208,9 @@ const declineRequisitionById = (req, res) => {
     });
 };
 
+/**
+ * use to generate next requisition id
+ * */
 const getNextRequisitionID = (req, res) => {
   const start = new Date();
   start.setMonth(0, 1);
